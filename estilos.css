@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #eef6fb;
+  color: #003a5d;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #005b9f;
+}
+
+#malla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.curso {
+  padding: 12px;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 87, 158, 0.1);
+  position: relative;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.curso button {
+  background-color: #cce5ff;
+  border: none;
+  padding: 10px 16px;
+  font-weight: bold;
+  color: #003a5d;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.curso button:disabled {
+  background-color: #dee2e6;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.curso.aprobado {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.curso.aprobado button {
+  background-color: #28a745;
+  color: white;
+}
+
+.curso.bloqueado {
+  opacity: 0.6;
+}
