@@ -64,7 +64,6 @@ const template = document.getElementById('curso-template');
 const estados = {};
 
 function renderMalla() {
- function renderMalla() {
   const semestres = {
     "I Semestre (1° Año)": ["introbiom", "biogral", "comesp", "coming", "introalg"],
     "II Semestre (1° Año)": ["fundmar", "zoolinv", "bioveg", "quimgra", "algtri"],
@@ -119,5 +118,4 @@ function renderMalla() {
     contenedor.appendChild(bloque);
   }
 }
-
 renderMalla();
