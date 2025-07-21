@@ -64,42 +64,60 @@ const template = document.getElementById('curso-template');
 const estados = {};
 
 function renderMalla() {
-  cursos.forEach(curso => {
-    const clone = template.content.cloneNode(true);
-    const box = clone.querySelector('.curso');
-    const btn = clone.querySelector('button');
-    const label = clone.querySelector('.nombre');
+ function renderMalla() {
+  const semestres = {
+    "I Semestre (1° Año)": ["introbiom", "biogral", "comesp", "coming", "introalg"],
+    "II Semestre (1° Año)": ["fundmar", "zoolinv", "bioveg", "quimgra", "algtri"],
+    "III Semestre (2° Año)": ["algas", "zoolvert", "oceanog", "quimorg", "calc"],
+    "IV Semestre (2° Año)": ["eco", "antro", "bioq", "filo", "fisica"],
+    "V Semestre (3° Año)": ["ecomar", "lecturaing", "ocebio", "biomol", "bioest", "integ1"],
+    "VI Semestre (3° Año)": ["acuic", "teo", "ecoan", "gen", "diseno"],
+    "VII Semestre (4° Año)": ["manejo", "semibib", "biopeq", "opt1", "integ2"],
+    "VIII Semestre (4° Año)": ["impacto", "semiinv", "opt2", "opt3", "opt4"],
+    "IX Semestre (5° Año)": ["empren", "practica", "etica", "opt5", "opt6", "opt7"],
+    "X Semestre (5° Año)": ["habilitacion"]
+  };
 
-    box.dataset.id = curso.id;
-    box.dataset.requiere = curso.requiere.join(',');
-    label.textContent = curso.nombre;
+  for (const [nombreSemestre, ids] of Object.entries(semestres)) {
+    const bloque = document.createElement('div');
+    bloque.classList.add('semestre');
 
-    if (curso.requiere.length === 0) {
-      box.classList.remove('bloqueado');
-      btn.disabled = false;
-    }
+    const titulo = document.createElement('h2');
+    titulo.textContent = nombreSemestre;
+    bloque.appendChild(titulo);
 
-    btn.addEventListener('click', () => {
-      estados[curso.id] = true;
-      box.classList.add('aprobado');
-      btn.disabled = true;
-      desbloquearCursos();
+    const contenedorCursos = document.createElement('div');
+    contenedorCursos.classList.add('cursos');
+
+    ids.forEach(id => {
+      const curso = cursos.find(c => c.id === id);
+      const clone = template.content.cloneNode(true);
+      const box = clone.querySelector('.curso');
+      const btn = clone.querySelector('button');
+      const label = clone.querySelector('.nombre');
+
+      box.dataset.id = curso.id;
+      box.dataset.requiere = curso.requiere.join(',');
+      label.textContent = curso.nombre;
+
+      if (curso.requiere.length === 0) {
+        box.classList.remove('bloqueado');
+        btn.disabled = false;
+      }
+
+      btn.addEventListener('click', () => {
+        estados[curso.id] = true;
+        box.classList.add('aprobado');
+        btn.disabled = true;
+        desbloquearCursos();
+      });
+
+      contenedorCursos.appendChild(clone);
     });
 
-    contenedor.appendChild(clone);
-  });
-}
-
-function desbloquearCursos() {
-  const cajas = document.querySelectorAll('.curso.bloqueado');
-  cajas.forEach(box => {
-    const requisitos = box.dataset.requiere.split(',').filter(r => r);
-    const cumplidos = requisitos.every(req => estados[req]);
-    if (cumplidos) {
-      box.classList.remove('bloqueado');
-      box.querySelector('button').disabled = false;
-    }
-  });
+    bloque.appendChild(contenedorCursos);
+    contenedor.appendChild(bloque);
+  }
 }
 
 renderMalla();
